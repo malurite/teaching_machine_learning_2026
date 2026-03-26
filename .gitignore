@@ -4,6 +4,9 @@
 .ipynb_checkpoints
 .DS_Store
 en.openfoodfacts.org.products.csv
+nutriscore_donnees_propres.csv
 .idea
 .vscode
 .coverage
+clustring_OFF/
+
