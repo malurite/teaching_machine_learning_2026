@@ -5,6 +5,7 @@
 .DS_Store
 en.openfoodfacts.org.products.csv
 nutriscore_donnees_propres.csv
+nutriscore_donnees_propres_full.csv
 .idea
 .vscode
 .coverage
