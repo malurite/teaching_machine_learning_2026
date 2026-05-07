@@ -105,6 +105,8 @@ Erreurs notables
 - Classe 0 génère également 27 confusions vers la classe 1, confirmant que la frontière 0/1 est la plus ambiguë.
 - Les classes 2, 3 et 4 sont très bien séparées, avec seulement quelques confusions entre voisines (3↔4 notamment : 14 cas).
 
+Le principal axe d'amélioration réside dans la discrimination entre les classes 0 et 1.
+
 ![catboost_matrix.png](img/catboost_matrix.png)
 
 Le modèle as d'excellentes performances globales, avec une accuracy 
