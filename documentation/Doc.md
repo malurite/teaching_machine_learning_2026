@@ -60,16 +60,24 @@ On utilise 100 itérations sur le modèle et on regarde ce que les métriques do
 Pour chaque lettre allant de A à E, on retrouve une precision plutôt similaire et stable, aux alentours de 0.90 (avec une allonge allant de 0.84 jusqu'à 0.96),
 avec le recall et le f1-score ayant les mêmes valeurs à peu près.
 
-Maintenant on va observer la learning curve de notre modèle, et on peut voir que notre score de validation avoisine les 0.90.
+![random_forest_metrics.png](img/random_forest_metrics.png)
 
-Score :
-![RF_CA_score.png](img/RF_CA_score.png)
+Maintenant on va observer la learning curve de notre modèle, et on peut voir que notre score de validation avoisine les 0.90.
 
 Grade :
 ![RF_CA_grade.png](img/RF_CA.png)
+
+
+
 Ensuite on va chercher à prédire le nutriscore_score, le score tout simplement.
 On obtient un score RMSE de 1713 et un score de R² de 0.969.
+
+![random_forest_metrics_score.png](img/random_forest_metrics_score.png)
+
 Pour la learning curve on obtient un score de validation autour de 0.965.
+
+Score :
+![RF_CA_score.png](img/RF_CA_score.png)
 
 Globalement, pour les 2 tests, on obtient des scores convaincants et élevés mais le modèle étant un modèle plutôt simple, on pourrai obtenir de meilleurs scores avec des modèles plus complexes. 
 
