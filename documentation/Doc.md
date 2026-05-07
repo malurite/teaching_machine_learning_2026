@@ -45,7 +45,7 @@ Variables globales utiles au modèle :
 On retire ensuite les lignes où nutriscore_grade, nutriscore_score et energy_100g 
 valent NaN, unknown ou not-applicable ce qui supprime 4148649 lignes
 
-![distrib.png](distrib.png)
+![distrib.png](img/distrib.png)
 
 
 ## Models, entrainement et choix
