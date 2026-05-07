@@ -133,6 +133,8 @@ avec comme hyperparamètres :
 - learning_rate=0.05
 - depth=6
 
+Catboost utilise principalement main_category et energy_100g 
+
 en 466 itérations ont obtient un test de 0.9951291612 ce qui nous
 donne un classification report tel quel :
 
@@ -171,6 +173,8 @@ avec comme hyperparamètres :
 - iterations=500
 - learning_rate=0.05
 - depth=6
+
+XGBoost utilise principalement energy_100g  et protein_100g
 
 en 488 itérations ont obtient un test de 0.9932816016661628 ce qui nous
 donne un classification report tel quel :
