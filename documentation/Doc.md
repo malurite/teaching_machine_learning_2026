@@ -104,6 +104,10 @@ Sodium (18.3%)
 
 Ces trois composants représentent à eux seuls plus de 75% de la décision du modèle, ce qui est cohérent avec le calcul officiel du Nutri-Score où ces éléments constituent les principaux "points négatifs".
 
+courbe d'apprentisage
+![XGtboost_score.png](img/XGtboost_score.png)
+
+
 CatBoost (Régression)
 En parallèle, le modèle CatBoost a été testé avec 200 itérations et une profondeur de 6. Contrairement au test de classification des grades (A-E), nous cherchons ici à prédire la valeur numérique exacte du score.
 
@@ -122,6 +126,9 @@ Le classement des variables diffère légèrement de XGBoost :
 Les sucres arrivent en tête (27.1%), suivis du sodium (23.8%) et des acides gras saturés (21.1%).
 
 On note que la variable main_category (4.0%) a un impact plus marqué ici que dans XGBoost, ce qui suggère que CatBoost exploite mieux la nature catégorielle des produits pour affiner le score.
+
+courbe d'apprentisage
+![catboost_score.png](img/catboost_score.png)
 
 Comparaison des modèles
 Pour la prédiction du score numérique, XGBoost s'avère être le modèle le plus performant avec une MAE de 0.855, contre 0.973 pour CatBoost. Cependant, les deux modèles montrent une absence quasi-totale de surapprentissage, l'écart entre les différents folds de validation étant infime (StDev < 0.01).
