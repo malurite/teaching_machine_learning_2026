@@ -19,8 +19,6 @@ On liste les modèles suivants pour être tester sur nos données :
 - LightGBM / XGBoost
 - CatBoost
 - Random Forest
-- Logistic Regression
-- Réseau de neuronnes
 
 ## Traitement apporté au jeu de données
 
