@@ -81,6 +81,51 @@ Globalement, pour les 2 tests, on obtient des scores convaincants et élevés ma
 
 ### Nutriscore Score
 
+XGBoost
+Après avoir testé les modèles de base, nous utilisons l'algorithme XGBoost pour prédire le nutriscore_score. Ce modèle de boosting d'arbres est configuré avec 150 itérations et une profondeur de 7 pour capturer les relations non-linéaires entre les nutriments.
+
+Résultats de la Validation Croisée (5 Folds) :
+Le modèle présente une excellente stabilité avec une erreur moyenne très faible.
+
+MAE Moyenne Globale : 0.855 points
+
+Écart-type (StDev) : 0.008 points
+
+L'erreur est inférieure à 1 point de Nutri-Score, ce qui témoigne d'une précision remarquable pour un score allant de -17 à 59.
+
+Importance des caractéristiques :
+Les trois variables dominantes pour XGBoost sont :
+
+Acides gras saturés (35.6%)
+
+Sucres (22.2%)
+
+Sodium (18.3%)
+
+Ces trois composants représentent à eux seuls plus de 75% de la décision du modèle, ce qui est cohérent avec le calcul officiel du Nutri-Score où ces éléments constituent les principaux "points négatifs".
+
+CatBoost (Régression)
+En parallèle, le modèle CatBoost a été testé avec 200 itérations et une profondeur de 6. Contrairement au test de classification des grades (A-E), nous cherchons ici à prédire la valeur numérique exacte du score.
+
+Résultats de la Validation Croisée (5 Folds) :
+Les performances sont légèrement moins élevées que celles de XGBoost sur cette tâche spécifique, mais restent très solides et homogènes sur tous les folds.
+
+MAE Moyenne Globale : 0.973 points
+
+Écart-type (StDev) : 0.007 points
+
+L'erreur reste extrêmement contenue (en dessous de 1 point), confirmant la robustesse des modèles de boosting pour ce jeu de données.
+
+Importance des caractéristiques :
+Le classement des variables diffère légèrement de XGBoost :
+
+Les sucres arrivent en tête (27.1%), suivis du sodium (23.8%) et des acides gras saturés (21.1%).
+
+On note que la variable main_category (4.0%) a un impact plus marqué ici que dans XGBoost, ce qui suggère que CatBoost exploite mieux la nature catégorielle des produits pour affiner le score.
+
+Comparaison des modèles
+Pour la prédiction du score numérique, XGBoost s'avère être le modèle le plus performant avec une MAE de 0.855, contre 0.973 pour CatBoost. Cependant, les deux modèles montrent une absence quasi-totale de surapprentissage, l'écart entre les différents folds de validation étant infime (StDev < 0.01).
+
 ### Nutriscore Grade 
 Catboost est le meilleur model
 avec comme hyperparamètres :
