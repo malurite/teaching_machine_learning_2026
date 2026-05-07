@@ -46,8 +46,6 @@ Variables globales utiles au modèle :
 
 On retire ensuite les lignes où nutriscore_grade, nutriscore_score et energy_100g 
 valent NaN, unknown ou not-applicable ce qui supprime 4148649 lignes
-
-
 ## Models, entrainement et choix
 
 ### Random Forest
@@ -109,9 +107,9 @@ weighted avg       1.00      1.00      1.00     29769
 ```
 Erreurs notables
 
-- Classe 1 est la plus difficile à classer : 80 exemples de la classe 1 sont prédits comme classe 0. C'est l'erreur la plus significative du modèle, suggérant que ces deux classes partagent des caractéristiques proches.
-- Classe 0 génère également 27 confusions vers la classe 1, confirmant que la frontière 0/1 est la plus ambiguë.
-- Les classes 2, 3 et 4 sont très bien séparées, avec seulement quelques confusions entre voisines (3↔4 notamment : 14 cas).
+- Classe 1(b) est la plus difficile à classer : 80 exemples de la classe 1 sont prédits comme classe 0. C'est l'erreur la plus significative du modèle, suggérant que ces deux classes partagent des caractéristiques proches.
+- Classe 0(a) génère également 27 confusions vers la classe 1, confirmant que la frontière 0/1 est la plus ambiguë.
+- Les classes 2(b), 3(c) et 4(d) sont très bien séparées, avec seulement quelques confusions entre voisines (3↔4 notamment : 14 cas).
 
 Le principal axe d'amélioration réside dans la discrimination entre les classes 0 et 1.
 
@@ -122,3 +120,62 @@ qui atteint 99,3–99,4% aussi bien sur le train que sur le test à 500 itérati
 Avec une convergence rapide en une 100aine d'itérations et une absence de sur apprentissage.
 
 ![catboost_learncurve.png](img/catboost_learncurve.png)
+
+XGBoost just après Catboost en thèrme de performances 
+avec comme hyperparamètres :
+- iterations=500
+- learning_rate=0.05
+- depth=6
+
+en 488 itérations ont obtient un test de 0.9932816016661628 ce qui nous
+donne un classification report tel quel :
+
+```
+Accuracy : 0.9932816016661628
+              precision    recall  f1-score   support
+
+           a       0.98      0.99      0.98      5285
+           b       0.99      0.97      0.98      3612
+           c       1.00      1.00      1.00      7905
+           d       1.00      1.00      1.00      6719
+           e       1.00      1.00      1.00      6248
+
+    accuracy                           0.99     29769
+   macro avg       0.99      0.99      0.99     29769
+weighted avg       0.99      0.99      0.99     29769
+```
+Erreurs notables
+
+- Classe b reste la plus difficile : 113 exemples de b sont prédits comme a, c'est l'erreur dominante du modèle. La frontière a/b est clairement la plus ambiguë, comme avec CatBoost.
+- Classe a génère 45 confusions vers b, confirmant la symétrie de la confusion a↔b.
+- Les classes c, d et e sont très bien séparées, avec seulement quelques fuites vers les voisines (d↔e : 20 cas, d↔c : 8 cas).
+
+Comparaison avec CatBoost
+- Recall classe a 99,4% | 99,1%
+- Recall classe b 97,8% | 96,9%
+- Recall classe c 99,9% | 99,97%
+- Recall classe d 99,8% | 99,8%
+- Recall classe e 99,7% | 99,6%
+
+
+- Confusion a↔b 80+27 = 107113+45 = 158
+
+CatBoost reste légèrement supérieur, notamment sur la classe b où XGBoost génère ~50% d'erreurs supplémentaires sur la frontière a/b. Cela s'explique en partie par le fait que CatBoost gère les variables catégorielles nativement, sans encodage, ce qui préserve mieux l'information ordinale des features textuelles du Nutri-Score.
+
+Conclusion
+XGBoost livre de très bonnes performances (~99% d'accuracy globale), mais CatBoost conserve un léger avantage sur ce jeu de données, probablement grâce à son traitement natif des catégorielles. Le point faible commun aux deux modèles reste la frontière a/b, ce qui suggère une piste d'amélioration partagée indépendante du choix du modèle.
+
+
+![xgboost_matrix.png](img/xgboost_matrix.png)
+
+Le modèle converge vers une accuracy de ~99,9% sur les deux sets, avec une montée extrêmement rapide dès les premières itérations.
+
+La courbe est presque verticale entre les itérations 0 et ~20, passant de ~28% à ~97% en quelques arbres seulement. C'est nettement plus brutal que CatBoost qui montait progressivement jusqu'à ~100 itérations.
+Cela reflète le comportement classique de XGBoost
+
+Les courbes train et test sont quasiment superposées sur toute la trajectoire, indissociables à l'œil nu. C'est un signal de généralisation parfaite. Contrairement à CatBoost où la courbe test était légèrement au-dessus du train (effet de l'ordered boosting), ici les deux progressent en parfaite symétrie, signe que la régularisation par défaut de XGBoost (reg_lambda=1, reg_alpha=0) est suffisante sur ce jeu de données.
+
+![xgboost_learn.png](img/xgboost_learn.png)
+
+Conclusion
+La learning curve XGBoost est exemplaire : convergence fulgurante, généralisation parfaite, aucun signe d'overfitting. Combinée à la matrice de confusion, elle confirme qu'XGBoost est un modèle très solide sur ce dataset, même s'il reste légèrement en retrait de CatBoost sur la discrimination des grades a/b.
